@@ -1,0 +1,130 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.25">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="static/theme.css">
+    <link rel="stylesheet" href="static/styles.css">
+  </head>
+
+    <body style="background-image: linear-gradient(to top, gold, rgba(0,0,0,0.8));">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-secondary border-bottom border-primary"> 
+        <div class="container"> <a class="navbar-brand" href="#"> 
+            <i class="fa d-inline fa-vimeo-square text-primary"></i> 
+            <b class="text-primary"><b>Vinance</b></b> 
+          </a> <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar11"> 
+            <span class="navbar-toggler-icon"></span> 
+          </button> 
+          <div class="collapse navbar-collapse" id="navbar11"> 
+            <ul class="navbar-nav mr-auto"> 
+              <li class="nav-item"> <a class="nav-link text-primary" href="home">Home</a> </li> 
+              <li class="nav-item"> <a class="nav-link text-primary" href="stock">Pricing</a> </li> 
+              <li class="nav-item text-secondary"> <a class="nav-link text-primary" href="news">News</a> </li> 
+              <li class="nav-item"> <a class="nav-link text-primary" href="transactions">Current Holdings</a> </li>
+            </ul> 
+            <ul class="navbar-nav ml-auto"> 
+              <li class="nav-item text-dark"> <a class="nav-link text-primary">Welcome {{ fFirstName }} {{ fLastName }} </a> </li> 
+            </ul> 
+            <a class="btn navbar-btn ml-md-2 btn-secondary text-primary">Fidor ID ({{ fID }})</a> 
+            <a class="btn navbar-btn ml-md-2 btn-secondary text-primary">Balance Available $: {{ fBalance }}</a>
+          </div> 
+        </div> 
+      </nav> 
+        <row>
+            <div style="display:flex">
+        <form action="result" method="post">
+            <h1>Pick An Equity </h1>
+            <div id="stockSymbolButtons">
+              <button type="button" class="btn btn-primary" data-value="600019.SS">Baoshan Iron & Steel Co Ltd</button>
+              <button type="button" class="btn btn-primary" data-value="601601.SS">China Pacific Insurance Group Co Ltd</button>
+              <button type="button" class="btn btn-primary" data-value="601288.SS">Agricultural Bank of China Ltd</button>
+              <button type="button" class="btn btn-primary" data-value="601398.SS">Industrial and Commercial Bank of China Ltd</button>
+              <button type="button" class="btn btn-primary" data-value="601998.SS">China CITIC Bank Corporation Limited</button>
+            </div>
+            <input type="hidden" name="stockSymbol" id="selectedStockSymbol" value="">
+            <br>
+            <h1>Time Interval</h1>
+            <div id="timeLineButtons">
+              <button type="button" class="btn btn-primary" data-value="Daily">Daily</button>
+              <button type="button" class="btn btn-primary" data-value="Weekly">Weekly</button>
+              <button type="button" class="btn btn-primary" data-value="monthly">Monthly</button>
+            </div>
+            <input type="hidden" name="timeLine" id="selectedTimeLine" value="">
+            <br>
+            <input type="submit" value="Check" class = "submit-button">
+          </form>
+        
+
+          {% if wTickerCode %}
+          <div>
+            <h2>Latest Price Of {{wTickerCode}}, Interval {{wTimeLine}}</h2>
+            <h1>Consumer Price Index Inflation Rate: %{{CPI}}</h1>
+            <h1>Price: $SGD{{sgdPrice}}, ${{Change}}, {{PercentChange}}</h1>
+            <div style="margin: 0 50; border-radius: 30px; box-shadow: 4px 4px 8px gold;">
+              <div style="border-radius: 30px; overflow: hidden;">
+                {{ plot_html | safe }}
+            </div>
+            </div>
+            <form action="/buy" method="GET" style="display: flex; align-items: center; justify-content: center; margin: 0 50; ">
+              <button type="submit" style="box-shadow: 4px 4px 8px whitesmoke; height: 150px; width: 300px;" class="btn btn-lg mx-1 btn-outline-primary">Buy {{wTickerCode}}</button>
+            </form>
+            
+          </div>
+          <div class="price-details">
+            <h3>Opening Price: {{wOpeningPrice}}</h3>
+            <h3>Highest Price: {{wHighPrice}}</h3>
+            <h3>Lowest Price: {{wLowPrice}}</h3>
+            <h3>Closing Price: {{wClosingPrice}}</h3>
+            <h3>Profit Margins: {{PMS}}</h3>
+            <h3>Revenue Growth: {{wRG}}</h3>
+            <h3>Return On Assets Ratio: {{Roa}}</h3>
+            <h3>Return On Equity Ratio: {{Roe}}</h3>
+            <h3>Market Opening Time: (GMT+8) {{wTimeOpen}} - {{wTimeClose}}</h3>
+            <h3>Market Status: {{wStatus}}</h3>
+            <h3>Notes: {{wNotes}}</h3>
+          </div>
+        </row>
+        
+    {% else %}
+    <div>
+        <h1 style="text-align: center;"> Pick A Stock To Retrieve Data </h1>
+        
+    </div>
+    {% endif %}
+    </row>
+        
+          
+          <script>
+            const stockSymbolButtons = document.querySelectorAll("#stockSymbolButtons button");
+            const timeLineButtons = document.querySelectorAll("#timeLineButtons button");
+            const selectedStockSymbol = document.querySelector("#selectedStockSymbol");
+            const selectedTimeLine = document.querySelector("#selectedTimeLine");
+            //const prices = document.querySelectorAll(".price");
+            //priceSpan.textContent = `Change: $${Change}, Percent Change: ${PercentChange}%`;
+
+          
+            stockSymbolButtons.forEach(button => {
+              button.addEventListener("click", function() {
+                stockSymbolButtons.forEach(b => b.classList.remove("active"));
+                this.classList.add("active");
+                selectedStockSymbol.value = this.getAttribute("data-value");
+              });
+            });
+          
+            timeLineButtons.forEach(button => {
+              button.addEventListener("click", function() {
+                timeLineButtons.forEach(b => b.classList.remove("active"));
+                this.classList.add("active");
+                selectedTimeLine.value = this.getAttribute("data-value");
+              });
+            });
+
+            //prices.forEach(priceSpan => {
+              //const change = parseFloat(priceSpan.getAttribute("data-change"));
+              //const percentChange = parseFloat(priceSpan.getAttribute("data-percent-change"));
+              //priceSpan.textContent = `${change} (${percentChange}%)`;
+            //});
+          </script>
+    </body>   
+</html>

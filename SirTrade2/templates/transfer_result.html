@@ -1,0 +1,73 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.5">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="static/theme.css">
+  
+  
+</head>
+
+{% if fTransactionID %} 
+    <body> 
+  <nav class="navbar navbar-expand-lg navbar-dark bg-secondary border-bottom border-primary"> 
+        <div class="container"> <a class="navbar-brand" href="#"> 
+            <i class="fa d-inline fa-vimeo-square text-primary"></i> 
+            <b class="text-primary"><b>Vinance</b></b> 
+          </a> <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar11"> 
+            <span class="navbar-toggler-icon"></span> 
+          </button> 
+          <div class="collapse navbar-collapse" id="navbar11"> 
+            <ul class="navbar-nav mr-auto"> 
+              <li class="nav-item"> <a class="nav-link text-primary" href="home">Home</a> </li> 
+              <li class="nav-item"> <a class="nav-link text-primary" href="stock">Pricing</a> </li> 
+              <li class="nav-item text-secondary"> <a class="nav-link text-primary" href="news">News</a> </li>
+              <li class="nav-item"> <a class="nav-link text-primary" href="transactions">Current Holdings</a> </li>
+            </ul> 
+            <ul class="navbar-nav ml-auto"> 
+              <li class="nav-item text-dark"> <a class="nav-link text-primary">Welcome {{ fFirstName }} {{ fLastName }} </a> </li> 
+            </ul> 
+            <a class="btn navbar-btn ml-md-2 btn-secondary text-primary">Fidor ID ({{ fID }})</a> 
+            <a class="btn navbar-btn ml-md-2 btn-secondary text-primary">Balance Available $: {{ fBalance }}</a>
+          </div> 
+        </div> 
+      </nav> 
+      <div class="text-center align-items-center d-flex flex-column justify-content-center text-primary py-2 rounded h-100 " style="background-size: cover; background-repeat: no-repeat; background-position: center; background-color: rgba(255, 255, 255, 0.5); background-image: url(static/assets/images/yellowbackground.jpg) ">        
+        <h1>Bank Transfer Completed (Transaction ID: {{ fTransactionID }})</h1> 
+        <br> 
+        <h2> SGD $ {{ famount }} is transferred to Vinance</h2><br> 
+        <br> 
+        <h2>  {{ fRemarks }}</h2><br> 
+        <a class="btn btn-lg mx-1 btn-outline-primary" href="stock"> Go Back To Trade</a><br> 
+        <a class="btn btn-lg mx-1 btn-outline-primary" href="home">Go Back Home</a><br> 
+        </div>
+        <div class="border-primary border rounded-lg" style="background-color: black;" >
+            <div class="container">
+              <div class="row">
+                <div class="col-md-12 text-center"> <i class="fa d-inline fa-vimeo-square text-primary fa-vimeo-square fa-4x"></i> 
+                  <p class="p-2 text-dark"> <a href="https://goo.gl/maps/AUq7b9W7yYJ2" target="_blank" class="text-primary"> Temasek Polytechnic, 544231 <br>Singapore, Tampines</a><br>2104275I@student.tp.edu.sg</p> 
+                </div> 
+              </div> 
+              <div class="row"> 
+                <div style="color: gold;"class="col-md-12 d-flex align-items-center justify-content-center my-3 "> <a href="#"> 
+                    <i  class="d-block fa fa-facebook-official text-muted fa-lg mr-2"></i> 
+                  </a> <a href="#"> 
+                    <i class="d-block fa fa-instagram text-muted fa-lg mx-2"></i> 
+                  </a> <a href="#"> 
+                    <i class="d-block fa fa-google-plus-official text-muted fa-lg mx-2"></i> 
+                  </a> <a href="#"> 
+                    <i class="d-block fa fa-pinterest-p text-muted fa-lg mx-2"></i> 
+                  </a> <a href="#"> 
+                    <i class="d-block fa fa-reddit text-muted fa-lg mx-2"></i> 
+                  </a> <a href="#"> 
+                    <i class="d-block fa fa-twitter text-muted fa-lg ml-2"></i> 
+                  </a> </div> 
+    </body> 
+{% else %} 
+    <body> 
+        <h1>No customers details</h1> 
+        <a href="index">back to index</a> 
+    </body> 
+{% endif %} 
+</html>
